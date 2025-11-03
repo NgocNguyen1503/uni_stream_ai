@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 from underthesea import word_tokenize
+from flask_cors import CORS
 
 # Khởi tạo Flask app
 app = Flask(__name__)
+CORS(app) # Allow call python API
 
 # Các từ ngữ cần kiểm duyệt
 BAD_WORDS = ["bạo lực", "khiêu dâm", "đánh đập"]
@@ -18,7 +20,7 @@ def contains_bad_words(text):
 # Tạo API kiểm tra nội dung
 @app.route('/detect', methods=['POST'])
 def detect():
-    content = request.json.get('text', '')
+    content = request.json.get('comment', '')
     is_bad = contains_bad_words(content)
     return jsonify({'is_bad': is_bad})
 
